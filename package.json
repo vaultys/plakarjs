@@ -1,0 +1,55 @@
+{
+  "name": "plakarjs",
+  "version": "1.0.0",
+  "description": "Node.js wrapper for Plakar CLI - effortless distributed backups",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node examples/basic-usage.js",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "prepublishOnly": "npm run lint && npm run test && npm run build"
+  },
+  "keywords": [
+    "plakar",
+    "backup",
+    "cli",
+    "wrapper",
+    "distributed",
+    "deduplication",
+    "encryption"
+  ],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/jest": "^29.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-jest": "^27.0.0",
+    "jest": "^29.0.0",
+    "typescript": "^5.0.0",
+    "ts-jest": "^29.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-repo/plakarjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-repo/plakarjs/issues"
+  },
+  "homepage": "https://github.com/your-repo/plakarjs#readme"
+}
