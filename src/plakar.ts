@@ -23,7 +23,7 @@ import { spawn, SpawnOptions } from "child_process";
 //   VersionInfo,
 //   CommandResult,
 // } from "./types";
-import { PlakarInstaller, InstallOptions, CheckResult, InstallResult } from "./installer";
+import { PlakarInstaller } from "./installer";
 
 /**
  * Plakar CLI wrapper for Node.js
@@ -898,21 +898,21 @@ class Plakar {
   /**
    * Check if Plakar CLI is installed
    */
-  async checkInstallation(): Promise<CheckResult> {
+  async checkInstallation(): Promise<PlakarInstaller.CheckResult> {
     return PlakarInstaller.check(this.binaryPath === "plakar" ? undefined : this.binaryPath);
   }
 
   /**
    * Install Plakar CLI if not already installed
    */
-  async installPlakar(options: InstallOptions = {}): Promise<InstallResult> {
+  async installPlakar(options: PlakarInstaller.Options = {}): Promise<PlakarInstaller.Result> {
     return PlakarInstaller.install(options);
   }
 
   /**
    * Ensure Plakar CLI is installed, install if needed
    */
-  async ensureInstalled(options: InstallOptions = {}): Promise<InstallResult> {
+  async ensureInstalled(options: PlakarInstaller.Options = {}): Promise<PlakarInstaller.Result> {
     const checkResult = await this.checkInstallation();
 
     if (checkResult.installed) {
@@ -956,7 +956,7 @@ class Plakar {
   /**
    * Uninstall Plakar CLI
    */
-  async uninstallPlakar(): Promise<InstallResult> {
+  async uninstallPlakar(): Promise<PlakarInstaller.Result> {
     return PlakarInstaller.uninstall(this.binaryPath === "plakar" ? undefined : this.binaryPath);
   }
 

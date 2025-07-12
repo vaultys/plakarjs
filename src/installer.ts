@@ -4,65 +4,79 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 
+/**
+ * Plakar CLI Installer
+ * 
+ * This module provides functions to check, install, and manage the Plakar CLI tool.
+ * It uses Go for installation and provides options for custom paths and versions.
+ */
+
 const execAsync = promisify(exec);
 
 /**
- * Installation options for Plakar CLI
+ * Plakar CLI Installer namespace
  */
-export interface InstallOptions {
-  /** Force reinstallation even if already installed */
-  force?: boolean;
-  /** Custom installation path */
-  installPath?: string;
-  /** Specific version to install (default: latest) */
-  version?: string;
-  /** Timeout for installation in milliseconds */
-  timeout?: number;
-  /** Show installation progress */
-  verbose?: boolean;
-}
+namespace PlakarInstaller{
 
-/**
- * Installation result
- */
-export interface InstallResult {
-  /** Whether installation was successful */
-  success: boolean;
-  /** Installation message */
-  message: string;
-  /** Installed version */
-  version?: string;
-  /** Installation path */
-  path?: string;
-  /** Any error that occurred */
-  error?: Error;
-}
+  /**
+   * Installation options for Plakar CLI
+   */
+  export interface Options {
+    /** Force reinstallation even if already installed */
+    force?: boolean;
+    /** Custom installation path */
+    installPath?: string;
+    /** Specific version to install (default: latest) */
+    version?: string;
+    /** Timeout for installation in milliseconds */
+    timeout?: number;
+    /** Show installation progress */
+    verbose?: boolean;
+  }
 
-/**
- * Check result for Plakar CLI
- */
-export interface CheckResult {
-  /** Whether Plakar CLI is installed */
-  installed: boolean;
-  /** Path to the binary */
-  path?: string;
-  /** Version of installed Plakar */
-  version?: string;
-  /** Whether Go is available for installation */
-  goAvailable: boolean;
-  /** Any error that occurred during check */
-  error?: Error;
+  /**
+   * Installation result
+   */
+  export interface Result {
+    /** Whether installation was successful */
+    success: boolean;
+    /** Installation message */
+    message: string;
+    /** Installed version */
+    version?: string;
+    /** Installation path */
+    path?: string;
+    /** Any error that occurred */
+    error?: Error;
+  }
+
+  /**
+   * Check result for Plakar CLI
+   */
+  export interface CheckResult {
+    /** Whether Plakar CLI is installed */
+    installed: boolean;
+    /** Path to the binary */
+    path?: string;
+    /** Version of installed Plakar */
+    version?: string;
+    /** Whether Go is available for installation */
+    goAvailable: boolean;
+    /** Any error that occurred during check */
+    error?: Error;
+  }
+
 }
 
 /**
  * Plakar CLI installer utility
  */
-export class PlakarInstaller {
+class PlakarInstaller {
   /**
    * Check if Plakar CLI is installed and available
    */
-  static async check(binaryPath?: string): Promise<CheckResult> {
-    const result: CheckResult = {
+  static async check(binaryPath?: string): Promise<PlakarInstaller.CheckResult> {
+    const result: PlakarInstaller.CheckResult = {
       installed: false,
       goAvailable: false,
     };
@@ -125,8 +139,8 @@ export class PlakarInstaller {
   /**
    * Install Plakar CLI using Go
    */
-  static async install(options: InstallOptions = {}): Promise<InstallResult> {
-    const result: InstallResult = {
+  static async install(options: PlakarInstaller.Options = {}): Promise<PlakarInstaller.Result> {
+    const result: PlakarInstaller.Result = {
       success: false,
       message: "",
     };
@@ -230,7 +244,7 @@ For more information, visit: https://docs.plakar.io/en/quickstart/
   /**
    * Auto-setup Plakar CLI with interactive prompts
    */
-  static async autoSetup(options: InstallOptions = {}): Promise<InstallResult> {
+  static async autoSetup(options: PlakarInstaller.Options = {}): Promise<PlakarInstaller.Result> {
     const checkResult = await this.check();
 
     if (checkResult.installed && !options.force) {
@@ -262,8 +276,8 @@ For more information, visit: https://docs.plakar.io/en/quickstart/
   /**
    * Uninstall Plakar CLI
    */
-  static async uninstall(binaryPath?: string): Promise<InstallResult> {
-    const result: InstallResult = {
+  static async uninstall(binaryPath?: string): Promise<PlakarInstaller.Result> {
+    const result: PlakarInstaller.Result = {
       success: false,
       message: "",
     };
@@ -309,6 +323,8 @@ For more information, visit: https://docs.plakar.io/en/quickstart/
   }
 }
 
+export { PlakarInstaller };
+
 /**
  * Convenience functions for common operations
  */
@@ -324,13 +340,13 @@ export async function isPlakarInstalled(binaryPath?: string): Promise<boolean> {
 /**
  * Install Plakar CLI with default options
  */
-export async function installPlakar(options?: InstallOptions): Promise<InstallResult> {
+export async function installPlakar(options?: PlakarInstaller.Options): Promise<PlakarInstaller.Result> {
   return PlakarInstaller.install(options);
 }
 
 /**
  * Auto-setup Plakar CLI with installation if needed
  */
-export async function ensurePlakarInstalled(options?: InstallOptions): Promise<InstallResult> {
+export async function ensurePlakarInstalled(options?: PlakarInstaller.Options): Promise<PlakarInstaller.Result> {
   return PlakarInstaller.autoSetup(options);
 }

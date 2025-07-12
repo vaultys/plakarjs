@@ -29,7 +29,7 @@
 export { Plakar } from "./plakar";
 
 // Export installation utilities
-export { PlakarInstaller, isPlakarInstalled, installPlakar, ensurePlakarInstalled, type InstallOptions, type InstallResult, type CheckResult } from "./installer";
+export { PlakarInstaller, isPlakarInstalled, installPlakar, ensurePlakarInstalled } from "./installer";
 
 // Default export
 export { Plakar as default } from "./plakar";
